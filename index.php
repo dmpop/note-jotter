@@ -1,9 +1,7 @@
 <?php
-error_reporting(E_ERROR);
+//error_reporting(E_ERROR);
 $title = "Scratch that";
 $password = 'password';
-// Content directory
-$dir = 'content';
 $theme = "light";
 $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee</a>";
 ?>
@@ -46,19 +44,22 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 		</div>
 		<hr>
 		<?php
+		$dir = 'content';
 		if (!file_exists($dir)) {
 			mkdir($dir, 0777, true);
+			$mdfile = $dir . "/content.md";
+			file_put_contents($mdfile, '');
 		}
 		$mdfile = $dir . "/content.md";
 		function Read()
 		{
-			include('config.php');
+			$dir = 'content';
 			$mdfile = $dir . "/content.md";
 			echo file_get_contents($mdfile);
 		}
 		function Write()
 		{
-			include('config.php');
+			$dir = 'content';
 			$mdfile = $dir . "/content.md";
 			copy($mdfile, $dir . '/' . date('Y-m-d-H-i-s') . '.md');
 			$fp = fopen($mdfile, "w");
@@ -74,13 +75,18 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 				exit();
 			}
 			Write();
-			header('Location:index.php');
+			echo '<div>Changes have been saved</div>';
 		};
 		?>
 		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
 			<textarea name="text"><?php Read(); ?></textarea>
-			<input style="margin-top: 1em;" type="password" name="password">
-			<button style="margin-top: .5em; margin-bottom: 1em;" type="submit" name="save">Save</button>
+			<div>
+				<label for='password'>Password:</label>
+			</div>
+			<div>
+				<input type="password" name="password">
+			</div>
+			<button style="margin-bottom: 1.5em;" type="submit" name="save">Save</button>
 		</form>
 	</div>
 	<div class="text-center">
