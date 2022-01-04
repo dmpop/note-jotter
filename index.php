@@ -45,23 +45,22 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 		<hr>
 		<?php
 		$dir = 'content';
+		$mdfile = $dir . "/content.md";
 		if (!file_exists($dir)) {
 			mkdir($dir, 0777, true);
-			$mdfile = $dir . "/content.md";
 			file_put_contents($mdfile, '');
 		}
-		$mdfile = $dir . "/content.md";
+
 		function Read()
 		{
-			$dir = 'content';
-			$mdfile = $dir . "/content.md";
+			global $mdfile;
 			echo file_get_contents($mdfile);
 		}
 		function Write()
 		{
-			$dir = 'content';
-			$mdfile = $dir . "/content.md";
-			copy($mdfile, $dir . '/' . date('Y-m-d-H-i-s') . '.md');
+			global $dir;
+			global $mdfile;
+			copy($mdfile, $dir . DIRECTORY_SEPARATOR . 'version_' . date('Y-m-d-H-i-s') . '.md');
 			$fp = fopen($mdfile, "w");
 			$data = $_POST["text"];
 			fwrite($fp, $data);
@@ -71,12 +70,30 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 		<?php
 		if (isset($_POST["save"])) {
 			if ($_POST['password'] != $password) {
-				print '<p>Wrong password</p>';
+				echo '<script>';
+				echo 'alert("Wrong password!")';
+				echo '</script>';
 				exit();
 			}
 			Write();
-			echo '<div>Changes have been saved</div>';
+			echo '<script>';
+			echo 'alert("Changes have been saved.")';
+			echo '</script>';
 		};
+		if (isset($_POST["clean"])) {
+			if ($_POST['password'] != $password) {
+				echo '<script>';
+				echo 'alert("Wrong password!")';
+				echo '</script>';
+				exit();
+			}
+			foreach (glob($dir . "/version_*") as $filename) {
+				unlink($filename);
+				echo '<script>';
+				echo 'alert("All versions have been removed.")';
+				echo '</script>';
+			}
+		}
 		?>
 		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
 			<textarea name="text"><?php Read(); ?></textarea>
@@ -87,10 +104,11 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 				<input type="password" name="password">
 			</div>
 			<button style="margin-bottom: 1.5em;" type="submit" name="save">Save</button>
+			<button style="margin-top: 1.5em;" type="submit" name="clean">Clean</button>
 		</form>
-	</div>
-	<div class="text-center">
-		<?php echo $footer; ?>
+		<div style="margin-bottom: 1em;">
+			<?php echo $footer; ?>
+		</div>
 	</div>
 </body>
 
