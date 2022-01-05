@@ -43,9 +43,10 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 			<h1 style="display: inline; margin-top: 0em; vertical-align: middle; letter-spacing: 3px;"><?php echo $title; ?></h1>
 		</div>
 		<hr>
+
 		<?php
-		$dir = 'content';
-		$mdfile = $dir . "/content.md";
+		$dir = 'versions';
+		$mdfile = "content.md";
 		if (!file_exists($dir)) {
 			mkdir($dir, 0777, true);
 			file_put_contents($mdfile, '');
@@ -60,26 +61,25 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 		{
 			global $dir;
 			global $mdfile;
-			copy($mdfile, $dir . DIRECTORY_SEPARATOR . 'version_' . date('Y-m-d-H-i-s') . '.md');
+			copy($mdfile, $dir . DIRECTORY_SEPARATOR . date('Y-m-d-H-i-s') . '.md');
 			$fp = fopen($mdfile, "w");
 			$data = $_POST["text"];
 			fwrite($fp, $data);
 			fclose($fp);
 		}
-		?>
-		<?php
 		if (isset($_POST["save"])) {
 			if ($_POST['password'] != $password) {
 				echo '<script>';
 				echo 'alert("Wrong password!")';
 				echo '</script>';
-				exit();
+			} else {
+				Write();
+				echo '<script>';
+				echo 'alert("Changes have been saved.")';
+				echo '</script>';
 			}
-			Write();
-			echo '<script>';
-			echo 'alert("Changes have been saved.")';
-			echo '</script>';
 		};
+
 		if (isset($_POST["clean"])) {
 			if ($_POST['password'] != $password) {
 				echo '<script>';
@@ -94,8 +94,16 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 				echo '</script>';
 			}
 		}
+
+		if (isset($_POST["show"])) {
+			
+			echo "<h3> Version: ". pathinfo($_POST['version'])['filename'] . "</h3>";
+			echo "<hr>";
+			echo file_get_contents($_POST["version"]);
+		}
 		?>
-		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+
+		<form action="" method="POST">
 			<textarea name="text"><?php Read(); ?></textarea>
 			<div>
 				<label for='password'>Password:</label>
@@ -105,6 +113,19 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 			</div>
 			<button style="margin-bottom: 1.5em;" type="submit" name="save">Save</button>
 			<button style="margin-top: 1.5em;" type="submit" name="clean">Clean</button>
+		</form>
+		<hr>
+		<form style="margin-bottom: 1.5em;" action="" method="POST">
+			<select name="version">
+				<option value="--" selected>Versions</option>
+				<?php
+				$files = glob($dir . DIRECTORY_SEPARATOR . "*");
+				foreach ($files as $file) {
+					echo "<option value='" . $file . "'>" . pathinfo($file)['filename'] . "</option>";
+				}
+				?>
+			</select>
+			<button type='submit' role='button' name='show'>Show version</button>
 		</form>
 		<div style="margin-bottom: 1em;">
 			<?php echo $footer; ?>
