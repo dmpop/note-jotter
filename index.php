@@ -1,8 +1,9 @@
 <?php
-//error_reporting(E_ERROR);
 $title = "Scratch that";
 $password = 'password';
 $theme = "light";
+$dir = 'versions';
+$mdfile = "content.md";
 $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee</a>";
 ?>
 
@@ -45,11 +46,16 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 		<hr>
 
 		<?php
-		$dir = 'versions';
-		$mdfile = "content.md";
 		if (!file_exists($dir)) {
 			mkdir($dir, 0777, true);
 			file_put_contents($mdfile, '');
+		}
+
+		function Alert($message)
+		{
+			echo '<script>';
+			echo 'alert("' . $message . '")';
+			echo '</script>';
 		}
 
 		function Read()
@@ -69,35 +75,26 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 		}
 		if (isset($_POST["save"])) {
 			if ($_POST['password'] != $password) {
-				echo '<script>';
-				echo 'alert("Wrong password!")';
-				echo '</script>';
+				Alert("Wrong password!");
 			} else {
 				Write();
-				echo '<script>';
-				echo 'alert("Changes have been saved.")';
-				echo '</script>';
+				Alert("Changes have been saved.");
 			}
-		};
+		}
 
 		if (isset($_POST["clean"])) {
 			if ($_POST['password'] != $password) {
-				echo '<script>';
-				echo 'alert("Wrong password!")';
-				echo '</script>';
-				exit();
-			}
-			foreach (glob($dir . "/version_*") as $filename) {
-				unlink($filename);
-				echo '<script>';
-				echo 'alert("All versions have been removed.")';
-				echo '</script>';
+				Alert("Wrong password!");
+			} else {
+				foreach (glob($dir . DIRECTORY_SEPARATOR . "*") as $filename) {
+					unlink($filename);
+					Alert("All versions have been removed.");
+				}
 			}
 		}
 
 		if (isset($_POST["show"])) {
-			
-			echo "<h3> Version: ". pathinfo($_POST['version'])['filename'] . "</h3>";
+			echo "<h3> Version: " . pathinfo($_POST['version'])['filename'] . "</h3>";
 			echo "<hr>";
 			echo file_get_contents($_POST["version"]);
 		}
