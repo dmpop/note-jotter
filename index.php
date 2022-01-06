@@ -1,8 +1,8 @@
 <?php
 $title = "Note jotter";
-$password = 'password';
+$password = "password";
 $theme = "light";
-$dir = 'versions';
+$dir = "versions";
 $mdfile = "content.md";
 $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee</a>";
 ?>
@@ -47,7 +47,7 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 
 		<?php
 		if (!file_exists($dir)) {
-			mkdir($dir, 0777, true);
+			mkdir($dir, 0750, true);
 			file_put_contents($mdfile, '');
 		}
 
