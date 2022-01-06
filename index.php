@@ -3,7 +3,7 @@ $title = "Note jotter";
 $password = "password";
 $theme = "light";
 $dir = "versions";
-$mdfile = "content.md";
+$txt_file = "text.txt";
 $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee</a>";
 ?>
 
@@ -48,7 +48,7 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 		<?php
 		if (!file_exists($dir)) {
 			mkdir($dir, 0750, true);
-			file_put_contents($mdfile, '');
+			file_put_contents($txt_file, '');
 		}
 
 		function Alert($message)
@@ -60,15 +60,15 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 
 		function Read()
 		{
-			global $mdfile;
-			echo file_get_contents($mdfile);
+			global $txt_file;
+			echo file_get_contents($txt_file);
 		}
 		function Write()
 		{
 			global $dir;
-			global $mdfile;
-			copy($mdfile, $dir . DIRECTORY_SEPARATOR . date('Y-m-d-H-i-s') . '.md');
-			$fp = fopen($mdfile, "w");
+			global $txt_file;
+			copy($txt_file, $dir . DIRECTORY_SEPARATOR . date('Y-m-d-H-i-s') . '.md');
+			$fp = fopen($txt_file, "w");
 			$data = $_POST["text"];
 			fwrite($fp, $data);
 			fclose($fp);
