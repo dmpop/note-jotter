@@ -1,5 +1,5 @@
 <?php
-$title = "Scratch that";
+$title = "Note jotter";
 $password = 'password';
 $theme = "light";
 $dir = 'versions';
