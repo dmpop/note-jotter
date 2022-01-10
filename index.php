@@ -108,8 +108,8 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 			<div>
 				<input type="password" name="password">
 			</div>
-			<button style="margin-bottom: 1.5em;" type="submit" name="save">Save</button>
-			<button style="margin-top: 1.5em;" type="submit" name="clean">Clean</button>
+			<button title="Save" style="margin-bottom: 1.5em;" type="submit" name="save"><img style='vertical-align: middle;' src='svg/save.svg' /></button>
+			<button title="Delete all versions" style="margin-top: 1.5em;" type="submit" name="clean"><img style='vertical-align: middle;' src='svg/trash.svg' /></button>
 		</form>
 		<hr>
 		<form style="margin-bottom: 1.5em;" action="" method="POST">
@@ -122,7 +122,7 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 				}
 				?>
 			</select>
-			<button type='submit' role='button' name='show'>Show version</button>
+			<button title="Show the selected version" type='submit' role='button' name='show'><img style='vertical-align: middle;' src='svg/view.svg' /></button>
 		</form>
 		<div style="margin-bottom: 1em;">
 			<?php echo $footer; ?>
