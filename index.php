@@ -101,6 +101,9 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 			$Parsedown = new Parsedown();
 			echo $Parsedown->text(file_get_contents($_POST["version"]));
 			echo "</div>";
+			echo "<form method='GET' action='" . $_POST["version"] . "'>";
+			echo "<button title='Download this version' type='submit'><img style='vertical-align: middle;' src='svg/download.svg' /></button>";
+			echo "</form>";
 		}
 		?>
 
