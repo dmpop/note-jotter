@@ -3,7 +3,7 @@ $title = "Note jotter";
 $password = "password";
 $theme = "light";
 $dir = "versions";
-$txt_file = "text.txt";
+$txt_file = "text.md";
 $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Right Away</a> book";
 ?>
 
@@ -59,26 +59,25 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 			echo '</script>';
 		}
 
-		function Read()
+		function Read($file)
 		{
-			global $txt_file;
-			echo file_get_contents($txt_file);
+			echo file_get_contents($file);
 		}
-		function Write()
+
+		function Write($sub_dir, $file)
 		{
-			global $dir;
-			global $txt_file;
-			copy($txt_file, $dir . DIRECTORY_SEPARATOR . date('Y-m-d-H-i-s') . '.md');
-			$fp = fopen($txt_file, "w");
+			copy($file, $sub_dir . DIRECTORY_SEPARATOR . date('Y-m-d-H-i-s') . '.md');
+			$fp = fopen($file, "w");
 			$data = $_POST["text"];
 			fwrite($fp, $data);
 			fclose($fp);
 		}
+		
 		if (isset($_POST["save"])) {
 			if ($_POST['password'] != $password) {
 				Alert("Wrong password!");
 			} else {
-				Write();
+				Write($dir, $txt_file);
 				Alert("Changes have been saved.");
 			}
 		}
@@ -108,7 +107,7 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 		?>
 
 		<form action="" method="POST">
-			<textarea name="text"><?php Read(); ?></textarea>
+			<textarea name="text"><?php Read($txt_file); ?></textarea>
 			<div>
 				<label for='password'>Password:</label>
 			</div>
