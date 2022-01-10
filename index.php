@@ -46,6 +46,7 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 		<hr>
 
 		<?php
+		include 'inc/parsedown.php';
 		if (!file_exists($dir)) {
 			mkdir($dir, 0750, true);
 			file_put_contents($txt_file, '');
@@ -96,7 +97,10 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 		if (isset($_POST["show"])) {
 			echo "<h3> Version: " . pathinfo($_POST['version'])['filename'] . "</h3>";
 			echo "<hr>";
-			echo file_get_contents($_POST["version"]);
+			echo "<div class='text-left'>";
+			$Parsedown = new Parsedown();
+			echo $Parsedown->text(file_get_contents($_POST["version"]));
+			echo "</div>";
 		}
 		?>
 
