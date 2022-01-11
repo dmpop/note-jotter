@@ -64,20 +64,22 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 			echo file_get_contents($file);
 		}
 
-		function Write($sub_dir, $file)
+		function Write()
 		{
-			copy($file, $sub_dir . DIRECTORY_SEPARATOR . date('Y-m-d-H-i-s') . '.md');
-			$fp = fopen($file, "w");
+			global $dir;
+			global $txt_file;
+			$file = fopen($txt_file, "w");
 			$data = $_POST["text"];
-			fwrite($fp, $data);
-			fclose($fp);
+			fwrite($file, $data);
+			fclose($file);
+			copy($txt_file, $dir . DIRECTORY_SEPARATOR . date('Ymd-His') . '.md');
 		}
 		
 		if (isset($_POST["save"])) {
 			if ($_POST['password'] != $password) {
 				Alert("Wrong password!");
 			} else {
-				Write($dir, $txt_file);
+				Write();
 				Alert("Changes have been saved.");
 			}
 		}
@@ -117,7 +119,7 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 		<hr style="margin-bottom: 1.5em;">
 		<form style="margin-bottom: 1.5em;" action="" method="POST">
 			<select style="vertical-align: middle;" name="version">
-				<option value="--" selected>Versions</option>
+				<option value="<?php echo $txt_file; ?>" selected>Versions</option>
 				<?php
 				$files = glob($dir . DIRECTORY_SEPARATOR . "*");
 				foreach ($files as $file) {
