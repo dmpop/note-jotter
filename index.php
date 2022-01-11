@@ -108,12 +108,9 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 
 		<form action="" method="POST">
 			<textarea name="text"><?php Read($txt_file); ?></textarea>
-			<div>
-				<label for='password'>Password:</label>
-			</div>
-			<div>
+			<label>Password:
 				<input type="password" name="password">
-			</div>
+			</label>
 			<button title="Save" style="margin-bottom: 1.5em;" type="submit" name="save"><img src='svg/save.svg' /></button>
 			<button title="Delete all versions" style="margin-top: 1.5em;" type="submit" name="clean"><img src='svg/trash.svg' /></button>
 		</form>
