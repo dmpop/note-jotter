@@ -68,10 +68,8 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 		{
 			global $dir;
 			global $txt_file;
-			$file = fopen($txt_file, "w");
 			$data = $_POST["text"];
-			fwrite($file, $data);
-			fclose($file);
+			file_put_contents($txt_file, $data);
 			copy($txt_file, $dir . DIRECTORY_SEPARATOR . date('Ymd-His') . '.md');
 		}
 		
