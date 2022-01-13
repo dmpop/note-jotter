@@ -74,8 +74,8 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 		}
 		
 		if (isset($_POST["save"])) {
-			if ($_POST['password'] != $password) {
-				Alert("Wrong password!");
+			if ($_POST['password'] !== $password) {
+				Alert("Incorrect password!");
 			} else {
 				Write();
 				Alert("Changes have been saved.");
@@ -84,7 +84,7 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 
 		if (isset($_POST["clean"])) {
 			if ($_POST['password'] != $password) {
-				Alert("Wrong password!");
+				Alert("Incorrect password!");
 			} else {
 				foreach (glob($dir . DIRECTORY_SEPARATOR . "*") as $filename) {
 					unlink($filename);
