@@ -82,7 +82,7 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 			}
 		}
 
-		if (isset($_POST["clean"])) {
+		if (isset($_POST["delete"])) {
 			if ($_POST['password'] != $password) {
 				Alert("Incorrect password!");
 			} else {
@@ -98,9 +98,9 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 			echo "<hr>";
 			echo "<div class='text-left'>";
 			$Parsedown = new Parsedown();
-			echo $Parsedown->text(file_get_contents($_POST["version"]));
+			echo $Parsedown->text(file_get_contents($_POST['version']));
 			echo "</div>";
-			echo "<form method='GET' action='" . $_POST["version"] . "'>";
+			echo "<form method='GET' action='" . $_POST['version'] . "'>";
 			echo "<button title='Download this version' type='submit'><img src='svg/download.svg' /></button>";
 			echo "</form>";
 		}
@@ -112,7 +112,7 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 				<input type="password" name="password">
 			</label>
 			<button title="Save" style="margin-bottom: 1.5em;" type="submit" name="save"><img src='svg/save.svg' /></button>
-			<button title="Delete all versions" style="margin-top: 1.5em;" type="submit" name="clean"><img src='svg/trash.svg' /></button>
+			<button title="Delete all versions" style="margin-top: 1.5em;" type="submit" name="delete"><img src='svg/trash.svg' /></button>
 		</form>
 		<hr style="margin-bottom: 1.5em;">
 		<form style="margin-bottom: 1.5em;" action="" method="POST">
@@ -125,7 +125,7 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 				}
 				?>
 			</select>
-			<button style="vertical-align: middle;" title="Show the selected version" type='submit' role='button' name='show'><img src='svg/view.svg' /></button>
+			<button style="vertical-align: middle;" title="Show the selected version" type='submit' name='show'><img src='svg/view.svg' /></button>
 		</form>
 		<div style="margin-bottom: 1em;">
 			<?php echo $footer; ?>
