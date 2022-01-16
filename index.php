@@ -46,11 +46,12 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 		<hr>
 
 		<?php
-		include 'inc/parsedown.php';
 		if (!file_exists($dir)) {
 			mkdir($dir, 0750, true);
 			file_put_contents($txt_file, '');
 		}
+
+		include 'inc/parsedown.php';
 
 		function Alert($message)
 		{
@@ -83,17 +84,8 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 				}
 				break;
 
-			case isset($_POST["save"]):
-				if ($_POST['password'] !== $password) {
-					Alert("Incorrect password!");
-				} else {
-					Write();
-					Alert("Changes have been saved.");
-				}
-				break;
-
 			case isset($_POST["delete"]):
-				if ($_POST['password'] != $password) {
+				if ($_POST['password'] !== $password) {
 					Alert("Incorrect password!");
 				} else {
 					foreach (glob($dir . DIRECTORY_SEPARATOR . "*") as $filename) {
@@ -102,7 +94,7 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 					}
 				}
 				break;
-				
+
 			case isset($_POST["show"]):
 				echo "<h3> Version: " . pathinfo($_POST['version'])['filename'] . "</h3>";
 				echo "<hr>";
