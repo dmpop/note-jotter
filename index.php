@@ -72,37 +72,48 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 			file_put_contents($txt_file, $data);
 			copy($txt_file, $dir . DIRECTORY_SEPARATOR . date('Ymd-His') . '.md');
 		}
-		
-		if (isset($_POST["save"])) {
-			if ($_POST['password'] !== $password) {
-				Alert("Incorrect password!");
-			} else {
-				Write();
-				Alert("Changes have been saved.");
-			}
-		}
 
-		if (isset($_POST["delete"])) {
-			if ($_POST['password'] != $password) {
-				Alert("Incorrect password!");
-			} else {
-				foreach (glob($dir . DIRECTORY_SEPARATOR . "*") as $filename) {
-					unlink($filename);
-					Alert("All versions have been removed.");
+		switch (true) {
+			case isset($_POST["save"]):
+				if ($_POST['password'] !== $password) {
+					Alert("Incorrect password!");
+				} else {
+					Write();
+					Alert("Changes have been saved.");
 				}
-			}
-		}
+				break;
 
-		if (isset($_POST["show"])) {
-			echo "<h3> Version: " . pathinfo($_POST['version'])['filename'] . "</h3>";
-			echo "<hr>";
-			echo "<div class='text-left'>";
-			$Parsedown = new Parsedown();
-			echo $Parsedown->text(file_get_contents($_POST['version']));
-			echo "</div>";
-			echo "<form method='GET' action='" . $_POST['version'] . "'>";
-			echo "<button title='Download this version' type='submit'><img src='svg/download.svg' /></button>";
-			echo "</form>";
+			case isset($_POST["save"]):
+				if ($_POST['password'] !== $password) {
+					Alert("Incorrect password!");
+				} else {
+					Write();
+					Alert("Changes have been saved.");
+				}
+				break;
+
+			case isset($_POST["delete"]):
+				if ($_POST['password'] != $password) {
+					Alert("Incorrect password!");
+				} else {
+					foreach (glob($dir . DIRECTORY_SEPARATOR . "*") as $filename) {
+						unlink($filename);
+						Alert("All versions have been removed.");
+					}
+				}
+				break;
+				
+			case isset($_POST["show"]):
+				echo "<h3> Version: " . pathinfo($_POST['version'])['filename'] . "</h3>";
+				echo "<hr>";
+				echo "<div class='text-left'>";
+				$Parsedown = new Parsedown();
+				echo $Parsedown->text(file_get_contents($_POST['version']));
+				echo "</div>";
+				echo "<form method='GET' action='" . $_POST['version'] . "'>";
+				echo "<button title='Download this version' type='submit'><img src='svg/download.svg' /></button>";
+				echo "</form>";
+				break;
 		}
 		?>
 
