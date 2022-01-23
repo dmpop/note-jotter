@@ -4,7 +4,7 @@ $password = "password";
 $theme = "light";
 $dir = "versions";
 $txt_file = "text.md";
-$footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Right Away</a> book";
+$footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee</a>";
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +26,6 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 			width: 100%;
 			height: 15em;
 			line-height: 1.9;
-			margin-top: 2em;
 		}
 	</style>
 	<!-- Suppress form re-submit prompt on refresh -->
@@ -71,7 +70,11 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 			global $txt_file;
 			$data = $_POST["text"];
 			file_put_contents($txt_file, $data);
-			copy($txt_file, $dir . DIRECTORY_SEPARATOR . date('Ymd-His') . '.md');
+			if (!empty($_POST["title"])) {
+				copy($txt_file, $dir . DIRECTORY_SEPARATOR . str_replace(" ", "_", $_POST["title"]) . '.md');
+			} else {
+				copy($txt_file, $dir . DIRECTORY_SEPARATOR . date('Ymd-His') . '.md');
+			}
 		}
 
 		switch (true) {
@@ -96,26 +99,32 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 				break;
 
 			case isset($_POST["show"]):
-				echo "<h3> Version: " . pathinfo($_POST['version'])['filename'] . "</h3>";
+				echo "<h3>" . pathinfo($_POST['version'])['filename'] . "</h3>";
 				echo "<hr>";
 				echo "<div class='text-left'>";
 				$Parsedown = new Parsedown();
 				echo $Parsedown->text(file_get_contents($_POST['version']));
 				echo "</div>";
 				echo "<form method='GET' action='" . $_POST['version'] . "'>";
-				echo "<button title='Download this version' type='submit'><img src='svg/download.svg' /></button>";
+				echo "<button title='Download this version' type='submit'><img src='svg/download.svg' width=24 /></button>";
 				echo "</form>";
+				echo "<hr style='margin-bottom: 2em;'>";
 				break;
 		}
 		?>
 
 		<form action="" method="POST">
+			<div style="margin-top: 2em; text-align: left;">
+				<label>Title (optional):
+					<input type="text" name="title">
+				</label>
+			</div>
 			<textarea name="text"><?php Read($txt_file); ?></textarea>
 			<label>Password:
 				<input type="password" name="password">
 			</label>
-			<button title="Save" style="margin-bottom: 1.5em;" type="submit" name="save"><img src='svg/save.svg' /></button>
-			<button title="Delete all versions" style="margin-top: 1.5em;" type="submit" name="delete"><img src='svg/trash.svg' /></button>
+			<button title="Save" style="margin-bottom: 1.5em;" type="submit" name="save"><img src='svg/save.svg' width=24 /></button>
+			<button title="Delete all versions" style="margin-top: 1.5em;" type="submit" name="delete"><img src='svg/trash.svg' width=24 /></button>
 		</form>
 		<hr style="margin-bottom: 1.5em;">
 		<form style="margin-bottom: 1.5em;" action="" method="POST">
@@ -128,7 +137,7 @@ $footer = "Read the <a href='https://dmpop.gumroad.com/l/php-right-away'>PHP Rig
 				}
 				?>
 			</select>
-			<button style="vertical-align: middle;" title="Show the selected version" type='submit' name='show'><img src='svg/view.svg' /></button>
+			<button style="vertical-align: middle;" title="Show the selected version" type="submit" name="show"><img src="svg/view.svg" width=24 /></button>
 		</form>
 		<div style="margin-bottom: 1em;">
 			<?php echo $footer; ?>

@@ -37,14 +37,14 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="2560"
-     inkscape:window-height="1369"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
      id="namedview6"
      showgrid="false"
      inkscape:zoom="9.8333333"
-     inkscape:cx="12"
+     inkscape:cx="-5.7966102"
      inkscape:cy="12"
-     inkscape:window-x="0"
+     inkscape:window-x="2560"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg4" />
@@ -55,5 +55,5 @@
      stroke-linecap="round"
      stroke-linejoin="round"
      id="path2"
-     style="stroke:#0077cc;stroke-opacity:1" />
+     style="stroke:#67cc00;stroke-opacity:1" />
 </svg>
