@@ -1,4 +1,6 @@
 <?php
+// CORS policy to allow the submitted page to read the response
+header('Access-Control-Allow-Origin: *');
 $title = "Note jotter";
 $password = "password";
 $theme = "light";
@@ -64,11 +66,10 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 			echo file_get_contents($file);
 		}
 
-		function Write()
+		function Write($data)
 		{
 			global $dir;
 			global $txt_file;
-			$data = $_POST["text"];
 			file_put_contents($txt_file, $data);
 			if (!empty($_POST["title"])) {
 				copy($txt_file, $dir . DIRECTORY_SEPARATOR . str_replace(" ", "_", $_POST["title"]) . '.md');
@@ -82,7 +83,7 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 				if ($_POST['password'] !== $password) {
 					Alert("Incorrect password!");
 				} else {
-					Write();
+					Write($_POST["text"]);
 					Alert("Changes have been saved.");
 				}
 				break;
@@ -110,6 +111,11 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 				echo "</form>";
 				echo "<hr style='margin-bottom: 2em;'>";
 				break;
+		}
+
+		if (isset($_GET['note']) && $_GET['password'] == $password) {
+			Write($_GET['note']);
+			header("location:" . $_GET['url'] . "");
 		}
 		?>
 
