@@ -1,19 +1,17 @@
 <?php
 // CORS policy to allow the submitted page to read the response
 header('Access-Control-Allow-Origin: *');
-$title = "Note jotter";
-$password = "password";
-$theme = "light";
-$dir = "versions";
-$txt_file = "text.md";
-$footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee</a>";
+include('config.php');
+include('inc/parsedown.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="en" data-theme="<?php echo $theme; ?>">
 
-<!-- Author: Dmitri Popov, dmpop@linux.com
-	 License: GPLv3 https://www.gnu.org/licenses/gpl-3.0.txt -->
+<!--
+	Author: Dmitri Popov, dmpop@linux.com
+	License: GPLv3 https://www.gnu.org/licenses/gpl-3.0.txt
+-->
 
 <head>
 	<title><?php echo $title; ?></title>
@@ -45,14 +43,13 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 			<h1 style="display: inline; margin-top: 0em; vertical-align: middle; letter-spacing: 3px;"><?php echo $title; ?></h1>
 		</div>
 		<hr>
+		<button title="Show all notes" style="margin-top: 1em;" onclick='window.location.href = "list.php"'><img style='vertical-align: middle;' src='svg/list.svg' /></button>
 
 		<?php
 		if (!file_exists($dir)) {
 			mkdir($dir, 0750, true);
 			file_put_contents($txt_file, '');
 		}
-
-		include 'inc/parsedown.php';
 
 		function Alert($message)
 		{
@@ -72,7 +69,7 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 			global $txt_file;
 			file_put_contents($txt_file, $data);
 			if (!empty($_POST["title"])) {
-				copy($txt_file, $dir . DIRECTORY_SEPARATOR . str_replace(" ", "_", $_POST["title"]) . '.md');
+				copy($txt_file, $dir . DIRECTORY_SEPARATOR . $_POST["title"] . '.md');
 			} else {
 				copy($txt_file, $dir . DIRECTORY_SEPARATOR . date('Ymd-His') . '.md');
 			}
@@ -120,7 +117,7 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 		?>
 
 		<form action="" method="POST">
-			<div style="margin-top: 2em; text-align: left;">
+			<div style="margin-top: 1em;">
 				<label>Title (optional):
 					<input type="text" name="title">
 				</label>
@@ -143,7 +140,7 @@ $footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee<
 				}
 				?>
 			</select>
-			<button style="vertical-align: middle;" title="Show the selected version" type="submit" name="show"><img src="svg/view.svg" width=24 /></button>
+			<button style="vertical-align: middle;" title="Show the selected note" type="submit" name="show"><img src="svg/view.svg" width=24 /></button>
 		</form>
 		<div style="margin-bottom: 1em;">
 			<?php echo $footer; ?>
